@@ -11,8 +11,8 @@ bootcmd:
   # Set proxy to be used by APT (including chroots)
   - for f in / /srv/chroot/*/
   - do
-  -   echo 'Acquire::http::Proxy "${apt_proxy_url}";' > "$f/etc/apt/apt.conf.d/proxy.conf"
-  -   echo 'Acquire::https::Proxy "${apt_proxy_url}";' >> "$f/etc/apt/apt.conf.d/proxy.conf"
+  -   echo 'Acquire::http::Proxy "${http_proxy_url}";' > "$f/etc/apt/apt.conf.d/proxy.conf"
+  -   echo 'Acquire::https::Proxy "${http_proxy_url}";' >> "$f/etc/apt/apt.conf.d/proxy.conf"
   - done
 
   # Set proxy to be used by buildkite agent
