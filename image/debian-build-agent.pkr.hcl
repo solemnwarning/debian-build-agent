@@ -55,7 +55,6 @@ build {
 
       "apt-get -y update",
       "apt-get -y install apt-transport-https dirmngr wget gpg gpg-agent",
-      # "apt-key adv --keyserver keys.openpgp.org --recv-keys 32A37959C2FA5C3C99EFBC32A79206696452D198",
       "https_proxy=\"${var.https_proxy}\" wget -O - https://keys.openpgp.org/vks/v1/by-fingerprint/32A37959C2FA5C3C99EFBC32A79206696452D198 | gpg --dearmor -o /etc/apt/trusted.gpg.d/buildkite-agent-keyring.gpg",
       "echo deb https://apt.buildkite.com/buildkite-agent stable main > /etc/apt/sources.list.d/buildkite-agent.list",
 
@@ -99,14 +98,14 @@ build {
     keep_input_artifact = true
     inline = [
       "cd ${var.output_dir}/",
-      "sha256sum debian-build-agent.qcow2 > debian-build-agent.SHA256SUMS",
+      "sha256sum debian-build-agent.qcow2 > SHA256SUMS",
     ]
   }
 }
 
 source qemu "debian" {
-  iso_url      = "file:/mnt/builds/qemu-debian-bookworm/latest/qemu-debian-bookworm.qcow2"
-  iso_checksum = "file:/mnt/builds/qemu-debian-bookworm/latest/qemu-debian-bookworm.SHA256SUMS"
+  iso_url      = "file:${abspath(path.root)}/../../packer-qemu-debian-bookworm/output/latest/qemu-debian-bookworm.qcow2"
+  iso_checksum = "file:${abspath(path.root)}/../../packer-qemu-debian-bookworm/output/latest/SHA256SUMS"
   disk_image   = true
 
   # Create a full copy of the base image
