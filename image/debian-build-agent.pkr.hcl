@@ -79,6 +79,9 @@ build {
       "sbuild-adduser buildkite-agent",
 
       "rm -f /etc/apt/apt.conf.d/proxy.conf",
+
+      # Use tmpfs for schroot overlays (build stuff in tmpfs)
+      "echo 'none  /var/lib/schroot/union/overlay  tmpfs  size=75%  0  0' >> /etc/fstab",
     ]
   }
 
