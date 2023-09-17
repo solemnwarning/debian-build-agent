@@ -10,6 +10,19 @@ resource "random_id" "suffix" {
   byte_length = 4
 }
 
+resource "tls_private_key" "ssh_host_rsa" {
+  algorithm = "RSA"
+  rsa_bits = 4096
+}
+
+resource "tls_private_key" "ssh_host_ecdsa" {
+  algorithm = "ECDSA"
+}
+
+resource "tls_private_key" "ssh_host_ed25519" {
+  algorithm = "ED25519"
+}
+
 resource "libvirt_volume" "root" {
   name   = "debian-build-agent-${random_id.suffix.hex}.qcow2"
   pool   = var.storage_pool
@@ -26,6 +39,10 @@ resource "libvirt_cloudinit_disk" "cloud_init" {
     http_proxy_url        = var.http_proxy_url
     instance_id           = random_id.suffix.hex
     root_password         = var.root_password
+
+    ssh_host_ecdsa   = tls_private_key.ssh_host_ecdsa
+    ssh_host_ed25519 = tls_private_key.ssh_host_ed25519
+    ssh_host_rsa     = tls_private_key.ssh_host_rsa
   })
 }
 
