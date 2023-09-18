@@ -34,6 +34,7 @@ build {
       "buildkite-agent.gitconfig",
       "buildkite-agent.known_hosts",
       "buildkite-environment-hook",
+      "powernapd.conf",
     ]
 
     destination = "/tmp/"
@@ -74,7 +75,7 @@ build {
       # Install build tools
 
       "apt-get -y update",
-      "apt-get -y install build-essential dpkg-dev sbuild schroot debootstrap git-buildpackage debhelper dh-lua gem2deb",
+      "apt-get -y install build-essential dpkg-dev sbuild schroot debootstrap git-buildpackage debhelper dh-lua dh-python gem2deb",
 
       "sbuild-adduser buildkite-agent",
 
@@ -82,6 +83,17 @@ build {
 
       # Use tmpfs for schroot overlays (build stuff in tmpfs)
       "echo 'none  /var/lib/schroot/union/overlay  tmpfs  size=75%  0  0' >> /etc/fstab",
+
+      # Install powernap
+
+      "https_proxy=\"${var.https_proxy}\" wget -O /etc/apt/trusted.gpg.d/solemnwarning-archive-keyring.gpg https://repos.solemnwarning.net/debian/solemnwarning-archive-keyring.gpg",
+      "echo deb http://repos.solemnwarning.net/debian/ bookworm main > /etc/apt/sources.list.d/solemnwarning.list",
+
+      "apt-get -y update",
+      "apt-get -y install powernap-git",
+
+      "cp /tmp/powernapd.conf /etc/powernap/powernapd.conf",
+      "systemctl enable powernap",
     ]
   }
 
