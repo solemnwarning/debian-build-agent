@@ -26,8 +26,15 @@ resource "tls_private_key" "ssh_host_ed25519" {
 resource "libvirt_volume" "root" {
   name   = "debian-build-agent-${random_id.suffix.hex}.qcow2"
   pool   = var.storage_pool
-  source = "file:/mnt/builds/debian-build-agent/latest/debian-build-agent.qcow2"
+  source = "file:${abspath(path.root)}/../image/output/latest/debian-build-agent.qcow2"
   format = "qcow2"
+
+  # Ensure disk is reset to initial state if cloud-init data is changed.
+  lifecycle {
+    replace_triggered_by = [
+      libvirt_cloudinit_disk.cloud_init.id,
+    ]
+  }
 }
 
 resource "libvirt_cloudinit_disk" "cloud_init" {
@@ -51,6 +58,14 @@ resource "libvirt_domain" "debian-build-agent" {
   memory  = "12288"
   vcpu    = 8
   running = false
+
+  # Destroy the VM when replacing the disk, otherwise it may be left running
+  # and the disk changed out from under it.
+  lifecycle {
+    replace_triggered_by = [
+      libvirt_volume.root.id,
+    ]
+  }
 
   description = chomp(
     <<-EOT

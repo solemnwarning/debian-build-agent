@@ -1,4 +1,4 @@
-variable "agent_http_proxy_url" {
+variable "http_proxy_url" {
   type = string
   default = ""
 }

@@ -32,7 +32,7 @@ module "deploy_to_vmhost01" {
   }
 
   buildkite_agent_token = var.buildkite_agent_token
-  http_proxy_url = var.agent_http_proxy_url
+  http_proxy_url = var.http_proxy_url
   root_password = random_password.root_password
 }
 
@@ -48,6 +48,6 @@ module "deploy_to_vmhost02" {
   }
 
   buildkite_agent_token = var.buildkite_agent_token
-  http_proxy_url = var.agent_http_proxy_url
+  http_proxy_url = var.http_proxy_url
   root_password = random_password.root_password
 }
