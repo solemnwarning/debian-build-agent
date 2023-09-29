@@ -4,7 +4,7 @@ set -e
 
 timestamp=$(date --utc '+%Y-%m-%dT%H:%M:%SZ')
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/image/"
 
 packer init  -var "output_dir=output/${timestamp}" debian-build-agent.pkr.hcl
 packer build -var "output_dir=output/${timestamp}" debian-build-agent.pkr.hcl
