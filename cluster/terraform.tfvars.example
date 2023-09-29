@@ -1,0 +1,2 @@
+http_proxy_url = "http://proxy.foo.com:8080/"
+buildkite_agent_token = "xxx"
