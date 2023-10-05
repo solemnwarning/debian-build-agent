@@ -22,7 +22,7 @@ output root_password {
 
 provider "libvirt" {
   alias = "vmhost01"
-  uri = "qemu+ssh://root@ishikawa.solemnwarning.net/system?sshauth=privkey"
+  uri = "qemu:///system"
 }
 
 module "deploy_to_vmhost01" {
@@ -38,13 +38,29 @@ module "deploy_to_vmhost01" {
 
 provider "libvirt" {
   alias = "vmhost02"
-  uri = "qemu:///system"
+  uri = "qemu+ssh://root@vmhost02.lan.solemnwarning.net/system?sshauth=privkey"
 }
 
 module "deploy_to_vmhost02" {
   source    = "./deploy_to_host/"
   providers = {
     libvirt = libvirt.vmhost02
+  }
+
+  buildkite_agent_token = var.buildkite_agent_token
+  http_proxy_url = var.http_proxy_url
+  root_password = random_password.root_password
+}
+
+provider "libvirt" {
+  alias = "vmhost03"
+  uri = "qemu+ssh://root@vmhost03.lan.solemnwarning.net/system?sshauth=privkey"
+}
+
+module "deploy_to_vmhost03" {
+  source    = "./deploy_to_host/"
+  providers = {
+    libvirt = libvirt.vmhost03
   }
 
   buildkite_agent_token = var.buildkite_agent_token
