@@ -20,6 +20,15 @@ output root_password {
   sensitive = true
 }
 
+resource "tls_private_key" "buildkite_user_ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+output buildkite_user_public_ssh_key {
+  value = tls_private_key.buildkite_user_ssh_key.public_key_openssh
+}
+
 provider "libvirt" {
   alias = "vmhost01"
   uri = "qemu:///system"
@@ -34,6 +43,7 @@ module "deploy_to_vmhost01" {
   buildkite_agent_token = var.buildkite_agent_token
   http_proxy_url = var.http_proxy_url
   root_password = random_password.root_password
+  buildkite_user_ssh_key = tls_private_key.buildkite_user_ssh_key
 }
 
 provider "libvirt" {
@@ -50,6 +60,7 @@ module "deploy_to_vmhost02" {
   buildkite_agent_token = var.buildkite_agent_token
   http_proxy_url = var.http_proxy_url
   root_password = random_password.root_password
+  buildkite_user_ssh_key = tls_private_key.buildkite_user_ssh_key
 }
 
 provider "libvirt" {
@@ -66,4 +77,5 @@ module "deploy_to_vmhost03" {
   buildkite_agent_token = var.buildkite_agent_token
   http_proxy_url = var.http_proxy_url
   root_password = random_password.root_password
+  buildkite_user_ssh_key = tls_private_key.buildkite_user_ssh_key
 }

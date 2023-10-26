@@ -19,3 +19,10 @@ variable "storage_pool" {
   type = string
   default = "default"
 }
+
+variable "buildkite_user_ssh_key" {
+  type = object({
+    private_key_openssh = string
+  })
+  sensitive = true
+}

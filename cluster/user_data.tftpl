@@ -50,3 +50,15 @@ runcmd:
   # https://serverfault.com/a/970459
   - dhclient -r
   - dhclient
+
+  # Install buildkite user's SSH key
+
+  - mkdir -p ~buildkite-agent/.ssh/
+  - chown buildkite-agent:buildkite-agent ~buildkite-agent/.ssh/
+
+  - cat > ~buildkite-agent/.ssh/id_rsa <<'EOF'
+  - ${ replace(buildkite_user_ssh_key.private_key_openssh, "\n", "\n  - ") }
+  - EOF
+
+  - chown buildkite-agent:buildkite-agent ~buildkite-agent/.ssh/id_rsa
+  - chmod 0600 ~buildkite-agent/.ssh/id_rsa

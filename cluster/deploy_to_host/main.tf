@@ -50,6 +50,8 @@ resource "libvirt_cloudinit_disk" "cloud_init" {
     ssh_host_ecdsa   = tls_private_key.ssh_host_ecdsa
     ssh_host_ed25519 = tls_private_key.ssh_host_ed25519
     ssh_host_rsa     = tls_private_key.ssh_host_rsa
+
+    buildkite_user_ssh_key = var.buildkite_user_ssh_key
   })
 }
 
