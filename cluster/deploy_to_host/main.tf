@@ -69,14 +69,6 @@ resource "libvirt_domain" "debian-build-agent" {
     ]
   }
 
-  description = chomp(
-    <<-EOT
-    [buildkite-libvirt-scaler]
-    buildkite-agent-meta-data = queue=linux-generic,queue=linux-debian
-    buildkite-agent-spawn = 2
-    EOT
-  )
-
   cloudinit = "${libvirt_cloudinit_disk.cloud_init.id}"
 
   network_interface {
