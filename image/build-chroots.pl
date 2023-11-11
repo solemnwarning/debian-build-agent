@@ -53,7 +53,8 @@ create("bionic-i386-sbuild",   "i386",  "bionic",  "http://archive.ubuntu.com/ub
 create("bionic-amd64-sbuild",  "amd64", "bionic",  "http://archive.ubuntu.com/ubuntu/",          ubuntu_extras("bionic"));
 create("focal-amd64-sbuild",   "amd64", "focal",   "http://archive.ubuntu.com/ubuntu/",          ubuntu_extras("focal"));
 create("jammy-amd64-sbuild",   "amd64", "jammy",   "http://archive.ubuntu.com/ubuntu/",          ubuntu_extras("jammy"));
-create("kinetic-amd64-sbuild", "amd64", "lunar",   "http://archive.ubuntu.com/ubuntu/", "gutsy", ubuntu_extras("lunar"));
+create("lunar-amd64-sbuild",   "amd64", "lunar",   "http://archive.ubuntu.com/ubuntu/", "gutsy", ubuntu_extras("lunar"));
+create("mantic-amd64-sbuild",  "amd64", "mantic",  "http://archive.ubuntu.com/ubuntu/", "gutsy", ubuntu_extras("mantic"));
 
 # Until all sbuild-createchroot processes have finished...
 while(%procs)
