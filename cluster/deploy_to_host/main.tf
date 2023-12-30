@@ -57,7 +57,7 @@ resource "libvirt_cloudinit_disk" "cloud_init" {
 
 resource "libvirt_domain" "debian-build-agent" {
   name    = "debian-build-agent-${random_id.suffix.hex}"
-  memory  = "12288"
+  memory  = "16384"
   vcpu    = 8
   running = false
 
