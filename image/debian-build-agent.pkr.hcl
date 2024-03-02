@@ -75,7 +75,7 @@ build {
       # Install build tools
 
       "apt-get -y update",
-      "apt-get -y install build-essential dpkg-dev sbuild schroot debootstrap git-buildpackage debhelper dh-lua dh-python gem2deb",
+      "apt-get -y install build-essential dpkg-dev sbuild schroot debootstrap git-buildpackage debhelper dh-lua dh-python gem2deb python3-setuptools",
 
       "sbuild-adduser buildkite-agent",
 
